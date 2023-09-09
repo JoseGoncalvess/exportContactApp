@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/exportontatcapp.iml" filepath="$PROJECT_DIR$/exportontatcapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/exportontatcapp_android.iml" filepath="$PROJECT_DIR$/android/exportontatcapp_android.iml" />
+    </modules>
+  </component>
+</project>
