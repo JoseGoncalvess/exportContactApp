@@ -6,14 +6,18 @@ import '../home/home_controller.dart';
 class Contactview extends StatefulWidget {
   final String name;
   final String number;
-  bool selected;
+  bool selectedstae;
+  bool allSelect;
   final int index;
+  final Function onpress;
   Contactview(
       {super.key,
       required this.name,
       required this.number,
-      this.selected = false,
-      required this.index});
+      this.selectedstae = false,
+      this.allSelect = false,
+      required this.index,
+      required this.onpress});
 
   @override
   State<Contactview> createState() => _ContactviewState();
@@ -81,16 +85,20 @@ class _ContactviewState extends State<Contactview> {
                 ),
               ),
             ),
-            Container(
-              child: Checkbox(
-                value: widget.selected,
-                onChanged: (value) {
-                  setState(() {
-                    widget.selected = !widget.selected;
-                  });
-                },
-              ),
-            )
+            !widget.allSelect
+                ? Container()
+                : Checkbox(
+                    activeColor: ThemeData().colorScheme.primary,
+                    checkColor: Colors.white,
+                    value: widget.selectedstae,
+                    onChanged: (value) {
+                      setState(() {
+                        widget.selectedstae = !widget.selectedstae;
+                      });
+
+                      widget.onpress();
+                    },
+                  )
           ],
         ),
       ),
