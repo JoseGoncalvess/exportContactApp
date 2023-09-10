@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height * 0.95,
           child: !isload
-              ? const Statemenssage(msg: "Carregando Contados...")
+              ? const Statemenssage(
+                  isIcon: false, msg: "Carregando Contados...")
               : ValueListenableBuilder<List<Contact>>(
                   valueListenable: _homecontroller,
                   builder: (context, value, child) => ListView.builder(
@@ -105,11 +106,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                   : const CircleAvatar(
                                       child: Icon(Icons.person)),
                               onTap: () {
-                                setState(() {
-                                  (selectcontats.contains(value[index]))
-                                      ? selectcontats.remove(value[index])
-                                      : selectcontats.add(value[index]);
-                                });
+                                _homecontroller.listselect.value
+                                    ? setState(() {
+                                        (selectcontats.contains(value[index]))
+                                            ? selectcontats.remove(value[index])
+                                            : selectcontats.add(value[index]);
+                                      })
+                                    : null;
                               },
                             ));
                       }),
@@ -118,13 +121,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _homecontroller.listselect.value
-              ? log("HOJE NÃO!!!")
-              : Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FavorListPage(),
-                  ));
+          // _homecontroller.listselect.value
+          //     ? log("HOJE NÃO!!!")
+          //     : Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => const FavorListPage(),
+          //         ));
+          _favorcontroller.addselectList(contatos: selectcontats);
         },
         backgroundColor: Colors.blue[700],
         child: Icon(

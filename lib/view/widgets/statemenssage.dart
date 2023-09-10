@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 class Statemenssage extends StatelessWidget {
   final String msg;
+  final bool isIcon;
+  final IconData? icon;
 
-  const Statemenssage({super.key, required this.msg});
+  const Statemenssage(
+      {super.key, required this.msg, required this.isIcon, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +14,15 @@ class Statemenssage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CircularProgressIndicator(
-          color: ThemeData().primaryColor,
-        ),
+        !isIcon
+            ? CircularProgressIndicator(
+                color: ThemeData().primaryColor,
+              )
+            : Icon(
+                icon,
+                size: MediaQuery.sizeOf(context).height * 0.05,
+                color: Colors.blue[500],
+              ),
         Text(
           msg,
           style: TextStyle(

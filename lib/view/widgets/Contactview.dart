@@ -4,20 +4,20 @@ import '../home/home_controller.dart';
 
 // ignore: must_be_immutable
 class Contactview extends StatefulWidget {
-  final String name;
-  final String number;
+  final String nameList;
+  final String qtcontast;
   bool selectedstae;
   bool allSelect;
   final int index;
-  final Function onpress;
-  Contactview(
-      {super.key,
-      required this.name,
-      required this.number,
-      this.selectedstae = false,
-      this.allSelect = false,
-      required this.index,
-      required this.onpress});
+
+  Contactview({
+    super.key,
+    required this.nameList,
+    required this.qtcontast,
+    this.selectedstae = false,
+    this.allSelect = false,
+    required this.index,
+  });
 
   @override
   State<Contactview> createState() => _ContactviewState();
@@ -43,7 +43,7 @@ class _ContactviewState extends State<Contactview> {
             borderRadius: BorderRadius.all(Radius.circular(12))),
         height: MediaQuery.sizeOf(context).height * 0.12,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
               padding: const EdgeInsets.all(3.0),
@@ -55,10 +55,10 @@ class _ContactviewState extends State<Contactview> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.name,
+                      widget.nameList,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: MediaQuery.sizeOf(context).width * 0.05,
+                          fontSize: MediaQuery.sizeOf(context).width * 0.06,
                           shadows: const [
                             BoxShadow(
                                 color: Color.fromARGB(200, 31, 30, 30),
@@ -68,7 +68,7 @@ class _ContactviewState extends State<Contactview> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      widget.number,
+                      "Contendo ${widget.qtcontast}",
                       style: TextStyle(
                         fontSize: MediaQuery.sizeOf(context).width * 0.04,
                         color: Colors.white,
@@ -88,15 +88,17 @@ class _ContactviewState extends State<Contactview> {
             !widget.allSelect
                 ? Container()
                 : Checkbox(
-                    activeColor: ThemeData().colorScheme.primary,
+                    activeColor: Colors.blue[900],
                     checkColor: Colors.white,
+                    side: const BorderSide(
+                        color: Colors.white,
+                        width: 9,
+                        style: BorderStyle.solid),
                     value: widget.selectedstae,
                     onChanged: (value) {
                       setState(() {
                         widget.selectedstae = !widget.selectedstae;
                       });
-
-                      widget.onpress();
                     },
                   )
           ],
