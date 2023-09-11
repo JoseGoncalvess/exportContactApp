@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:exportontatcapp/view/favorlist/favor_list_page.dart';
+import 'package:exportontatcapp/view/widgets/alert_action.dart';
 import 'package:exportontatcapp/view/widgets/custom_Appbar.dart';
 import 'package:exportontatcapp/view/widgets/statemenssage.dart';
 import 'package:fast_contacts/fast_contacts.dart';
@@ -61,62 +62,67 @@ class _MyHomePageState extends State<MyHomePage> {
           _homecontroller.allsSelect();
         },
       ).custombar(),
-      body: SizedBox(
-        width: MediaQuery.sizeOf(context).width,
-        height: MediaQuery.sizeOf(context).height,
+      body: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.sizeOf(context).width,
-          height: MediaQuery.sizeOf(context).height * 0.95,
-          child: !isload
-              ? const Statemenssage(
-                  isIcon: false, msg: "Carregando Contados...")
-              : ValueListenableBuilder<List<Contact>>(
-                  valueListenable: _homecontroller,
-                  builder: (context, value, child) => ListView.builder(
-                      itemCount: value.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: ListTile(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              title: Text(
-                                value[index].displayName,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        MediaQuery.sizeOf(context).width * 0.05,
-                                    color: Colors.blue[800]),
-                              ),
-                              subtitle: Text(
-                                value[index].phones.first.number,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize:
-                                        MediaQuery.sizeOf(context).width * 0.03,
-                                    color: Colors.grey[600]),
-                              ),
-                              selectedColor: Colors.indigo[50],
-                              selectedTileColor: Colors.lightBlue[900],
-                              selected: selectcontats.contains(value[index]),
-                              leading: (selectcontats.contains(value[index]))
-                                  ? const CircleAvatar(
-                                      child: Icon(Icons.check_circle))
-                                  : const CircleAvatar(
-                                      child: Icon(Icons.person)),
-                              onTap: () {
-                                _homecontroller.listselect.value
-                                    ? setState(() {
-                                        (selectcontats.contains(value[index]))
-                                            ? selectcontats.remove(value[index])
-                                            : selectcontats.add(value[index]);
-                                      })
-                                    : null;
-                              },
-                            ));
-                      }),
-                ),
+          height: MediaQuery.sizeOf(context).height,
+          child: SizedBox(
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height * 0.95,
+            child: !isload
+                ? const Statemenssage(
+                    isIcon: false, msg: "Carregando Contados...")
+                : ValueListenableBuilder<List<Contact>>(
+                    valueListenable: _homecontroller,
+                    builder: (context, value, child) => ListView.builder(
+                        itemCount: value.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: ListTile(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12))),
+                                title: Text(
+                                  value[index].displayName,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.sizeOf(context).width *
+                                              0.05,
+                                      color: Colors.blue[800]),
+                                ),
+                                subtitle: Text(
+                                  value[index].phones.first.number,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize:
+                                          MediaQuery.sizeOf(context).width *
+                                              0.03,
+                                      color: Colors.grey[600]),
+                                ),
+                                selectedColor: Colors.indigo[50],
+                                selectedTileColor: Colors.lightBlue[900],
+                                selected: selectcontats.contains(value[index]),
+                                leading: (selectcontats.contains(value[index]))
+                                    ? const CircleAvatar(
+                                        child: Icon(Icons.check_circle))
+                                    : const CircleAvatar(
+                                        child: Icon(Icons.person)),
+                                onTap: () {
+                                  _homecontroller.listselect.value
+                                      ? setState(() {
+                                          (selectcontats.contains(value[index]))
+                                              ? selectcontats
+                                                  .remove(value[index])
+                                              : selectcontats.add(value[index]);
+                                        })
+                                      : null;
+                                },
+                              ));
+                        }),
+                  ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -128,7 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
           //         MaterialPageRoute(
           //           builder: (context) => const FavorListPage(),
           //         ));
-          _favorcontroller.addselectList(contatos: selectcontats);
+
+          AlertAction().actionAlert(context, contatos: selectcontats);
         },
         backgroundColor: Colors.blue[700],
         child: Icon(
