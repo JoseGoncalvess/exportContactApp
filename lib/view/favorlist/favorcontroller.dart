@@ -1,7 +1,5 @@
-import 'dart:convert';
 import "dart:developer";
 import 'package:exportontatcapp/model/contato_model.dart';
-import 'package:exportontatcapp/model/list_contat.model.dart';
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 

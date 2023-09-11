@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:exportontatcapp/view/favorlist/favor_list_page.dart';
 import 'package:exportontatcapp/view/widgets/alert_action.dart';
 import 'package:exportontatcapp/view/widgets/custom_Appbar.dart';
@@ -18,7 +17,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final HomeController _homecontroller = HomeController();
-  Favorcontroller _favorcontroller = Favorcontroller();
+  final Favorcontroller _favorcontroller = Favorcontroller();
   bool isload = false;
   List<Contact> selectcontats = [];
 

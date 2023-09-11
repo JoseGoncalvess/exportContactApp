@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../home/home_controller.dart';
+import '../viewlist/viewlist_page.dart';
 import '../widgets/contactview.dart';
 import '../widgets/statemenssage.dart';
 import 'favorcontroller.dart';
@@ -13,7 +15,8 @@ class FavorListPage extends StatefulWidget {
 
 class _FavorListPageState extends State<FavorListPage> {
   Favorcontroller favorcontroller = Favorcontroller();
-  SharedPreferenc _pref = SharedPreferenc();
+  SharedPreferenc pref = SharedPreferenc();
+  final HomeController homecontroller = HomeController();
 
   bool selectList = false;
   bool loading = true;
@@ -24,12 +27,16 @@ class _FavorListPageState extends State<FavorListPage> {
     favorcontroller.addListener(() {
       setState(() {});
     });
+    homecontroller.listselect.addListener(() {
+      setState(() {});
+    });
+
     favorcontroller.loadLists().then((value) => {
           setState(
             () => loading = false,
           )
         });
-    _pref.getKeys().then((value) => setState(
+    pref.getKeys().then((value) => setState(
           () => keys = value,
         ));
   }
@@ -41,6 +48,12 @@ class _FavorListPageState extends State<FavorListPage> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.blue[900],
         centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              homecontroller.allsSelect();
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
         title: const Text(
           ' Contatos favoritos',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -77,6 +90,14 @@ class _FavorListPageState extends State<FavorListPage> {
                             return Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Contactview(
+                                  ontap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewlistPage(
+                                              contatos: value[index]),
+                                        ));
+                                  },
                                   index: index,
                                   nameList: keys[index],
                                   qtcontast: value[index].length.toString(),
