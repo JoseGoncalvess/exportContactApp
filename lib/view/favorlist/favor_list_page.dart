@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../controller/whatsapp_controller.dart';
 import '../home/home_controller.dart';
 import '../viewlist/viewlist_page.dart';
 import '../widgets/contactview.dart';
@@ -112,6 +113,9 @@ class _FavorListPageState extends State<FavorListPage> {
           setState(() {
             selectList = !selectList;
           });
+
+          WhatsappController().sendMenssagem(
+              context: context, msg: "olá", number: "+5587991650328");
         },
         backgroundColor: Colors.blue[700],
         child: const Icon(

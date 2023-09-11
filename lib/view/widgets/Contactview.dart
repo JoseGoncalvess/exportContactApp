@@ -47,7 +47,7 @@ class _ContactviewState extends State<Contactview> {
         child: Container(
           decoration: BoxDecoration(
               color: Colors.grey[600],
-              borderRadius: BorderRadius.all(Radius.circular(12))),
+              borderRadius: const BorderRadius.all(Radius.circular(12))),
           height: MediaQuery.sizeOf(context).height * 0.12,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
