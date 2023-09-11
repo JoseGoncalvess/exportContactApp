@@ -127,15 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // _homecontroller.listselect.value
-          //     ? log("HOJE NÃO!!!")
-          //     : Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => const FavorListPage(),
-          //         ));
-
-          AlertAction().actionAlert(context, contatos: selectcontats);
+          !_homecontroller.listselect.value
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavorListPage(),
+                  ))
+              : AlertAction().actionAlert(context, contatos: selectcontats);
         },
         backgroundColor: Colors.blue[700],
         child: Icon(

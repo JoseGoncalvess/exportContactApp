@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 
+import '../favorlist/favor_list_page.dart';
 import '../favorlist/favorcontroller.dart';
+import '../home/home_controller.dart';
 
 class AlertAction {
   Future actionAlert(BuildContext _, {required List<Contact> contatos}) async {
     Favorcontroller _favorcontroller = Favorcontroller();
+    final HomeController _homecontroller = HomeController();
     TextEditingController _texteditingControlle = TextEditingController();
     GlobalKey<State> _key = GlobalKey<State>();
     return showModalBottomSheet(
@@ -77,14 +82,24 @@ class AlertAction {
                           height: MediaQuery.sizeOf(context).height * 0.05,
                           child: ElevatedButton(
                               onPressed: () {
-                                if (_texteditingControlle.text != "" ||
-                                    _texteditingControlle.text != null) {
-                                  _favorcontroller.addselectList(
+                                if (_texteditingControlle.text != "") {
+                                  _favorcontroller
+                                      .addselectList(
                                     key: _texteditingControlle.text,
                                     contatos: contatos,
-                                  );
-                                  Navigator.pop(context);
+                                  )
+                                      .then((value) {
+                                    log("salvou");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const FavorListPage(),
+                                        ));
+                                  });
                                 }
+                                _homecontroller.allsSelect();
+                                Navigator.pop(context);
                               },
                               child: const Text("Salvar Lista")))
                     ],

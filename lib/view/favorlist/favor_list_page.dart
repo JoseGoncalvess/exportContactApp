@@ -1,7 +1,8 @@
-import 'package:exportontatcapp/model/contato_model.dart';
 import 'package:flutter/material.dart';
 import '../widgets/contactview.dart';
+import '../widgets/statemenssage.dart';
 import 'favorcontroller.dart';
+import '../../controller/shared_preferenc.dart';
 
 class FavorListPage extends StatefulWidget {
   const FavorListPage({super.key});
@@ -11,15 +12,26 @@ class FavorListPage extends StatefulWidget {
 }
 
 class _FavorListPageState extends State<FavorListPage> {
-  Favorcontroller _favorcontroller = Favorcontroller();
+  Favorcontroller favorcontroller = Favorcontroller();
+  SharedPreferenc _pref = SharedPreferenc();
+
   bool selectList = false;
+  bool loading = true;
+  List<String> keys = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _favorcontroller.addListener(() {
+    favorcontroller.addListener(() {
       setState(() {});
     });
+    favorcontroller.loadLists().then((value) => {
+          setState(
+            () => loading = false,
+          )
+        });
+    _pref.getKeys().then((value) => setState(
+          () => keys = value,
+        ));
   }
 
   @override
@@ -50,29 +62,28 @@ class _FavorListPageState extends State<FavorListPage> {
         child: SizedBox(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height * 0.95,
-          child:
-              // _favorcontroller.value.isEmpty
-              //     ? const Statemenssage(
-              //         isIcon: true,
-              //         icon: Icons.format_list_bulleted_add,
-              //         msg: "Sem Contatos Favoritos")
-              //     :
-
-              ValueListenableBuilder<List<ContatoModel>>(
-            valueListenable: _favorcontroller,
-            builder: (context, value, child) => ListView.builder(
-                itemCount: 1, //.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Contactview(
-                        index: index,
-                        nameList: "pessoal",
-                        qtcontast: "32",
-                        allSelect: selectList,
-                      ));
-                }),
-          ),
+          child: loading
+              ? const Statemenssage(isIcon: false, msg: "Carregando listas...")
+              : ValueListenableBuilder<List<List<String>>>(
+                  valueListenable: favorcontroller,
+                  builder: (context, value, child) => value.isEmpty
+                      ? const Statemenssage(
+                          isIcon: true,
+                          icon: Icons.format_list_bulleted_add,
+                          msg: "Sem Contatos Favoritos")
+                      : ListView.builder(
+                          itemCount: value.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Contactview(
+                                  index: index,
+                                  nameList: keys[index],
+                                  qtcontast: value[index].length.toString(),
+                                  allSelect: selectList,
+                                ));
+                          }),
+                ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
