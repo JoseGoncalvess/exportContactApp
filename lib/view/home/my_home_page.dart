@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:exportontatcapp/view/favorlist/favor_list_page.dart';
 import 'package:exportontatcapp/view/widgets/alert_action.dart';
 import 'package:exportontatcapp/view/widgets/custom_Appbar.dart';
@@ -5,7 +7,9 @@ import 'package:exportontatcapp/view/widgets/statemenssage.dart';
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 
+import '../../controller/shared_preferenc.dart';
 import '../favorlist/favorcontroller.dart';
+
 import 'home_controller.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,15 +22,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final HomeController _homecontroller = HomeController();
   final Favorcontroller _favorcontroller = Favorcontroller();
+  SharedPreferenc pref = SharedPreferenc();
+
   bool isload = false;
   List<Contact> selectcontats = [];
-
+  List<String> keys = [];
   @override
   void initState() {
     super.initState();
+    _homecontroller.getusername();
+
     _homecontroller.addListener(() {
       setState(() {});
     });
+    _homecontroller.getkeysUser();
     _homecontroller.electedIndex.addListener(() {
       setState(() {});
     });
@@ -39,9 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
             isload = true;
           },
         ));
-    _favorcontroller.contatctemp.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -132,7 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                     builder: (context) => const FavorListPage(),
                   ))
-              : AlertAction().actionAlert(context, contatos: selectcontats);
+              : AlertAction()
+                  .actionAlert(context, contatos: selectcontats, keys: keys);
         },
         backgroundColor: Colors.blue[700],
         child: Icon(

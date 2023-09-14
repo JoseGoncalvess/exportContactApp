@@ -1,4 +1,3 @@
-import 'package:exportontatcapp/view/viewlist/viewlist_page.dart';
 import 'package:flutter/material.dart';
 
 import '../home/home_controller.dart';
@@ -8,7 +7,7 @@ class Contactview extends StatefulWidget {
   final String nameList;
   final String qtcontast;
   bool selectedstae;
-  bool allSelect;
+  final Widget chekbox;
   final int index;
   final Function() ontap;
 
@@ -17,9 +16,9 @@ class Contactview extends StatefulWidget {
     required this.nameList,
     required this.qtcontast,
     this.selectedstae = false,
-    this.allSelect = false,
     required this.index,
     required this.ontap,
+    required this.chekbox,
   });
 
   @override
@@ -100,22 +99,7 @@ class _ContactviewState extends State<Contactview> {
                   ),
                 ),
               ),
-              !widget.allSelect
-                  ? Container()
-                  : Checkbox(
-                      activeColor: Colors.blue[900],
-                      checkColor: Colors.white,
-                      side: const BorderSide(
-                          color: Colors.white,
-                          width: 9,
-                          style: BorderStyle.solid),
-                      value: widget.selectedstae,
-                      onChanged: (value) {
-                        setState(() {
-                          widget.selectedstae = !widget.selectedstae;
-                        });
-                      },
-                    )
+              widget.chekbox
             ],
           ),
         ),

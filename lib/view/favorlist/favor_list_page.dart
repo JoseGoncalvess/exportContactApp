@@ -1,5 +1,5 @@
+import 'package:exportontatcapp/view/widgets/action_send.dart';
 import 'package:flutter/material.dart';
-import '../../controller/whatsapp_controller.dart';
 import '../home/home_controller.dart';
 import '../viewlist/viewlist_page.dart';
 import '../widgets/contactview.dart';
@@ -19,9 +19,9 @@ class _FavorListPageState extends State<FavorListPage> {
   SharedPreferenc pref = SharedPreferenc();
   final HomeController homecontroller = HomeController();
 
-  bool selectList = false;
+  int? selectList = null;
   bool loading = true;
-  List<String> keys = [];
+  bool statebox = false;
   @override
   void initState() {
     super.initState();
@@ -32,14 +32,13 @@ class _FavorListPageState extends State<FavorListPage> {
       setState(() {});
     });
 
-    favorcontroller.loadLists().then((value) => {
-          setState(
-            () => loading = false,
-          )
-        });
-    pref.getKeys().then((value) => setState(
-          () => keys = value,
-        ));
+    favorcontroller
+        .loadLsts(person: nameuser, keys: keysuUser)
+        .then((value) => {
+              setState(
+                () => loading = false,
+              )
+            });
   }
 
   @override
@@ -54,21 +53,11 @@ class _FavorListPageState extends State<FavorListPage> {
               homecontroller.allsSelect();
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
         title: const Text(
           ' Contatos favoritos',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         selethall();
-        //       },
-        //       icon: const Icon(
-        //         Icons.fact_check_rounded,
-        //         color: Colors.white,
-        //       ))
-        // ],
       ),
       body: SizedBox(
         width: MediaQuery.sizeOf(context).width,
@@ -91,18 +80,38 @@ class _FavorListPageState extends State<FavorListPage> {
                             return Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Contactview(
+                                  chekbox: Checkbox(
+                                    activeColor: Colors.blue[900],
+                                    checkColor: Colors.white,
+                                    side: const BorderSide(
+                                        color: Colors.white,
+                                        width: 9,
+                                        style: BorderStyle.solid),
+                                    value: index == selectList,
+                                    onChanged: (value) {
+                                      if (value == statebox) {
+                                        setState(() {
+                                          selectList = null;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          selectList = index;
+                                        });
+                                      }
+                                    },
+                                  ),
                                   ontap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ViewlistPage(
+                                              namelist: keysuUser[index],
                                               contatos: value[index]),
                                         ));
                                   },
                                   index: index,
-                                  nameList: keys[index],
+                                  nameList: keysuUser[index],
                                   qtcontast: value[index].length.toString(),
-                                  allSelect: selectList,
                                 ));
                           }),
                 ),
@@ -110,12 +119,14 @@ class _FavorListPageState extends State<FavorListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            selectList = !selectList;
-          });
-
-          WhatsappController().sendMenssagem(
-              context: context, msg: "olá", number: "+5587991650328");
+          if (selectList != null) {
+            ActionSend().actionAlert(context,
+                msg: favorcontroller.value[selectList!].toString());
+          }
+          {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Nenhuma Lista Selecionada")));
+          }
         },
         backgroundColor: Colors.blue[700],
         child: const Icon(

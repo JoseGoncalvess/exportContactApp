@@ -1,12 +1,12 @@
 import 'package:exportontatcapp/view/viewlist/viewlist_controller.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/custom_Appbar.dart';
 import '../widgets/statemenssage.dart';
 
 class ViewlistPage extends StatefulWidget {
   final List<String> contatos;
-  const ViewlistPage({super.key, required this.contatos});
+  final String namelist;
+  const ViewlistPage(
+      {super.key, required this.contatos, required this.namelist});
 
   @override
   State<ViewlistPage> createState() => _ViewlistPageState();
@@ -31,13 +31,20 @@ class _ViewlistPageState extends State<ViewlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(
-        select: () => {},
-        contatosselects: 0,
-        selethall: () {},
-        back: () {},
-        statSelect: false,
-      ).custombar(),
+      appBar: AppBar(
+        backgroundColor: Colors.blue[900],
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
+        title: Text(
+          "Lista: ${widget.namelist}",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.sizeOf(context).width,

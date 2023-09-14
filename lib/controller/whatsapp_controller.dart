@@ -2,13 +2,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../model/formater_msg.dart';
+
 class WhatsappController {
   sendMenssagem(
       {required BuildContext context,
       required String msg,
       required String number}) async {
-    Uri url_android = Uri.parse("whatsapp://send?phone=$number+&text=$msg");
-    Uri url_ios = Uri.parse("https://wa.me/$number?text=${Uri.parse(msg)}");
+    var string = FormaterMsg().formater(msg);
+
+    Uri url_android = Uri.parse(
+        "whatsapp://send?phone=$number+&text=${FormaterMsg().formater(string)}");
+    Uri url_ios = Uri.parse("https://wa.me/$number?text=${Uri.parse(string)}");
 
     if (Platform.isIOS) {
       if (await canLaunchUrl(url_ios)) {

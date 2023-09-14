@@ -14,16 +14,25 @@ class SharedPreferenc {
     return prefs.getStringList(key) ?? [];
   }
 
-  saveKeys({required List<String> favorList}) async {
+  saveKeys({required List<String> favorList, required String user}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(endKeys, favorList);
+    prefs.setStringList(user, favorList);
   }
 
-  Future<List<String>> getKeys() async {
+  Future<List<String>> getKeys({required String user}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    log(prefs.getStringList(endKeys).toString());
-    return prefs.getStringList(endKeys) ?? [];
+    return prefs.getStringList(user) ?? [];
+  }
+
+  Future saveUser({required String name}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(userKeys, name);
+  }
+
+  Future loaduser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userKeys) ?? "";
   }
 }
 
-final String endKeys = "@key_and_keys";
+final String userKeys = "@user_key";
