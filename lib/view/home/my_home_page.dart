@@ -54,13 +54,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(
+        contatoslength: _homecontroller.value.length,
         select: () => _homecontroller.allsSelect(),
         statSelect: _homecontroller.listselect.value,
         contatosselects: selectcontats.length,
         selethall: () {
-          setState(() {
-            selectcontats = _homecontroller.value;
-          });
+          if (selectcontats.length == _homecontroller.value.length) {
+            setState(
+              () {
+                selectcontats = [];
+              },
+            );
+          } else {
+            setState(() {
+              selectcontats = _homecontroller.value;
+            });
+          }
         },
         back: () {
           selectcontats = [];

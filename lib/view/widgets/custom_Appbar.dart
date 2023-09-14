@@ -7,7 +7,9 @@ class CustomAppbar {
   final Function selethall;
   final bool statSelect;
   final Function select;
+  final int contatoslength;
   CustomAppbar({
+    required this.contatoslength,
     required this.select,
     required this.statSelect,
     required this.contatosselects,
@@ -22,17 +24,11 @@ class CustomAppbar {
                   onPressed: () {
                     select();
                   },
-                  icon: !statSelect
-                      ? const Icon(
-                          Icons.checklist_rounded,
-                          color: Colors.white,
-                          size: 25,
-                        )
-                      : const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 25,
-                        ))
+                  icon: const Icon(
+                    Icons.checklist_rounded,
+                    color: Colors.white,
+                    size: 25,
+                  ))
             ],
             backgroundColor: Colors.blue[900],
             centerTitle: true,
@@ -63,10 +59,15 @@ class CustomAppbar {
                   onPressed: () {
                     selethall();
                   },
-                  icon: const Icon(
-                    Icons.fact_check_rounded,
-                    color: Colors.white,
-                  ))
+                  icon: contatosselects == contatoslength
+                      ? const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.fact_check_rounded,
+                          color: Colors.white,
+                        ))
             ],
           );
   }

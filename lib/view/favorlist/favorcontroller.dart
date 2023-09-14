@@ -39,7 +39,7 @@ class Favorcontroller extends ValueNotifier<List<List<String>>> {
       map.forEach((key, value) {
         for (var e in value) {
           var i = ContatoModel.fromMap(jsonDecode(value[0]));
-          favors.add(i.toString());
+          favors.add(i.toJson());
         }
       });
 
