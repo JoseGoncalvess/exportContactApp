@@ -1,15 +1,10 @@
-import 'dart:developer';
-
 import 'package:exportontatcapp/view/favorlist/favor_list_page.dart';
 import 'package:exportontatcapp/view/widgets/alert_action.dart';
 import 'package:exportontatcapp/view/widgets/custom_Appbar.dart';
 import 'package:exportontatcapp/view/widgets/statemenssage.dart';
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-
 import '../../controller/shared_preferenc.dart';
-import '../favorlist/favorcontroller.dart';
-
 import 'home_controller.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -21,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final HomeController _homecontroller = HomeController();
-  final Favorcontroller _favorcontroller = Favorcontroller();
+  // final Favorcontroller _favorcontroller = Favorcontroller();
   SharedPreferenc pref = SharedPreferenc();
 
   bool isload = false;
@@ -48,6 +43,32 @@ class _MyHomePageState extends State<MyHomePage> {
             isload = true;
           },
         ));
+  }
+
+  gosave() {
+    if (selectcontats.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          textAlign: TextAlign.center,
+          "Nenhum contato selecionado!",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: MediaQuery.sizeOf(context).width * 0.04),
+        ),
+        backgroundColor: Colors.blue[900],
+      ));
+    } else {
+      AlertAction().actionAlert(
+        context,
+        contatos: selectcontats,
+        keys: keys,
+        finishiSavepress: () {
+          Navigator.pop(context);
+          selectcontats = [];
+          _homecontroller.allsSelect();
+        },
+      );
+    }
   }
 
   @override
@@ -147,8 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                     builder: (context) => const FavorListPage(),
                   ))
-              : AlertAction()
-                  .actionAlert(context, contatos: selectcontats, keys: keys);
+              : gosave();
         },
         backgroundColor: Colors.blue[700],
         child: Icon(

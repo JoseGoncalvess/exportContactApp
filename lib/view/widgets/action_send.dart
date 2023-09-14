@@ -1,18 +1,11 @@
-import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import '../../controller/shared_preferenc.dart';
 import '../../controller/whatsapp_controller.dart';
-import '../favorlist/favor_list_page.dart';
-import '../favorlist/favorcontroller.dart';
 import '../home/home_controller.dart';
 import 'dart:developer';
 
 class ActionSend {
   Future actionAlert(BuildContext _, {required String msg}) async {
-    Favorcontroller _favorcontroller = Favorcontroller();
-    final HomeController _homecontroller = HomeController();
-    TextEditingController _texteditingControlle = TextEditingController();
-    SharedPreferenc pref = SharedPreferenc();
+    TextEditingController texteditingControlle = TextEditingController();
 
     return showModalBottomSheet(
         context: _,
@@ -40,7 +33,7 @@ class ActionSend {
                   SizedBox(
                     width: MediaQuery.sizeOf(context).width * 0.9,
                     child: TextField(
-                      controller: _texteditingControlle,
+                      controller: texteditingControlle,
                       autocorrect: true,
                       maxLines: 1,
                       maxLength: 14,
@@ -82,7 +75,7 @@ class ActionSend {
                           height: MediaQuery.sizeOf(context).height * 0.05,
                           child: ElevatedButton(
                               onPressed: () async {
-                                var number = _texteditingControlle.text;
+                                var number = texteditingControlle.text;
                                 log(nameuser);
                                 log(keysuUser.toList().toString());
 

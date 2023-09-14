@@ -10,7 +10,6 @@ class ViewlistController extends ValueNotifier<List<ContatoModel>> {
       {required List<String> contatos}) async {
     for (var e in contatos) {
       var item = jsonDecode(e);
-      // log(item.runtimeType.toString());
       value.add(ContatoModel.fromMap(item));
       log(item.runtimeType.toString());
     }

@@ -14,9 +14,9 @@ class SharedPreferenc {
     return prefs.getStringList(key) ?? [];
   }
 
-  saveKeys({required List<String> favorList, required String user}) async {
+  saveKeys({required List<String> keylist, required String user}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(user, favorList);
+    prefs.setStringList(user, keylist);
   }
 
   Future<List<String>> getKeys({required String user}) async {

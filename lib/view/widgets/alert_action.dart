@@ -8,22 +8,23 @@ import 'dart:developer';
 
 class AlertAction {
   Future actionAlert(BuildContext _,
-      {required List<Contact> contatos, required List<String> keys}) async {
+      {required List<Contact> contatos,
+      required List<String> keys,
+      required Function() finishiSavepress}) async {
     Favorcontroller _favorcontroller = Favorcontroller();
     final HomeController _homecontroller = HomeController();
     TextEditingController _texteditingControlle = TextEditingController();
-    SharedPreferenc pref = SharedPreferenc();
 
     return showModalBottomSheet(
         context: _,
         isScrollControlled: true,
-        builder: (context) {
+        builder: (_) {
           return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding:
+                EdgeInsets.only(bottom: MediaQuery.of(_).viewInsets.bottom),
             child: Container(
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height * 0.4,
+              width: MediaQuery.sizeOf(_).width,
+              height: MediaQuery.sizeOf(_).height * 0.4,
               color: Colors.blue[900],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,12 +34,12 @@ class AlertAction {
                     "Infomação da lista",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: MediaQuery.sizeOf(context).height * 0.04,
+                      fontSize: MediaQuery.sizeOf(_).height * 0.04,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.9,
+                    width: MediaQuery.sizeOf(_).width * 0.9,
                     child: TextField(
                       controller: _texteditingControlle,
                       autocorrect: true,
@@ -70,16 +71,16 @@ class AlertAction {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.4,
-                          height: MediaQuery.sizeOf(context).height * 0.05,
+                          width: MediaQuery.sizeOf(_).width * 0.4,
+                          height: MediaQuery.sizeOf(_).height * 0.05,
                           child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pop(_);
                               },
                               child: const Text("Cancelar"))),
                       SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.4,
-                          height: MediaQuery.sizeOf(context).height * 0.05,
+                          width: MediaQuery.sizeOf(_).width * 0.4,
+                          height: MediaQuery.sizeOf(_).height * 0.05,
                           child: ElevatedButton(
                               onPressed: () async {
                                 var key = _texteditingControlle.text;
@@ -87,36 +88,17 @@ class AlertAction {
                                 log(keysuUser.toList().toString());
 
                                 if (_texteditingControlle.text != "") {
-                                  if (!keysuUser.contains(key)) {
-                                    _favorcontroller
-                                        .saveList(contatos: contatos, key: key)
-                                        .then((value) {
-                                      log("salvou");
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const FavorListPage(),
-                                          ));
-                                      _homecontroller.allsSelect();
-                                      Navigator.pop(context);
-                                    });
-                                  }
-                                  //  else {
-                                  //   _favorcontroller
-                                  //       .updatelist(
-                                  //           contatos: contatos,
-                                  //           key: _texteditingControlle.text)
-                                  //       .then((value) => {
-                                  //             Navigator.push(
-                                  //                 context,
-                                  //                 MaterialPageRoute(
-                                  //                   builder: (context) =>
-                                  //                       const FavorListPage(),
-                                  //                 )),
-                                  //             log("ADICIONOL"),
-                                  //           });
-                                  // }
+                                  _favorcontroller
+                                      .saveList(contatos: contatos, key: key)
+                                      .then((value) {
+                                    // finishiSavepress();
+                                    // Navigator.push(
+                                    //     _,
+                                    //     MaterialPageRoute(
+                                    //       builder: (_) =>
+                                    //           const FavorListPage(),
+                                    //     ));
+                                  });
                                 }
                               },
                               child: const Text("Salvar Lista")))

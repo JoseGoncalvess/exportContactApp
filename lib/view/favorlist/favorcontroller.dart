@@ -15,7 +15,7 @@ class Favorcontroller extends ValueNotifier<List<List<String>>> {
       FirebaseFirestore.instance.collection('users');
 
 //crair uma nova coleção para o usuario
-  newuser(
+  newlist(
       {required List<String> favorlisr,
       required String key,
       required String person}) async {
@@ -30,46 +30,52 @@ class Favorcontroller extends ValueNotifier<List<List<String>>> {
     return await user.doc(person).update({key: favorlisr});
   }
 
+  Future saveList(
+      {required List<Contact> contatos, required String key}) async {
+    List<String> favors = [];
+    for (var e in contatos) {
+      favors.add(ContatoModel(
+              name: e.displayName,
+              contato: e.phones.first.number,
+              email: e.emails.isEmpty ? "" : e.emails.first.address)
+          .toJson());
+    }
+
+    if (keysuUser.isNotEmpty) {
+      if (keysuUser.contains(key)) {
+        log("LISTA EXISTENTE NO DB, ATUALIZANDO.....");
+        await updateList(person: nameuser, favorlisr: favors, key: key);
+        log("SALVO NO BANCO DE DADOS..");
+      } else if (!keysuUser.contains(key)) {
+        keysuUser.add(key);
+        pref.saveKeys(user: nameuser, keylist: keysuUser);
+        await updateList(favorlisr: favors, key: key, person: nameuser);
+        log("SALVO NO BANCO DE DADOS..");
+      }
+    } else {
+      keysuUser.add(key);
+      pref.saveKeys(user: nameuser, keylist: keysuUser);
+      await newlist(favorlisr: favors, key: key, person: nameuser);
+      log("NEW USER CRIADO NO BANCO DE DADOS..");
+    }
+  }
+
   Future loadLsts({required String person, required List<String> keys}) async {
     List<String> favors = [];
     DocumentSnapshot response = await user.doc(person).get();
     var map = response.data() as Map<String, dynamic>;
-    for (var k in keysuUser) {
-      //var item = map[k] as Map<String, dynamic>;
-      map.forEach((key, value) {
-        for (var e in value) {
-          var i = ContatoModel.fromMap(jsonDecode(value[0]));
-          favors.add(i.toJson());
-        }
-      });
-
-      // favors.add(item.toString());
-      // log(favors.toString());
-      value.add(favors);
-    }
-  }
-
-  Future saveList(
-      {required List<Contact> contatos, required String key}) async {
-    List<String> favors = [];
-    if (!keysuUser.contains(key)) {
-      for (var e in contatos) {
-        favors.add(ContatoModel(
-                name: e.displayName,
-                contato: e.phones.first.number,
-                email: e.emails.isEmpty ? "" : e.emails.first.address)
-            .toJson());
+    map.forEach((key, value) {
+      for (var e in value) {
+        var i = ContatoModel.fromMap(jsonDecode(value[0]));
+        favors.add(i.toJson());
       }
-      keysuUser.add(key);
-      pref.saveKeys(user: nameuser, favorList: keysuUser);
-      await newuser(favorlisr: favors, key: key, person: nameuser);
-      log("Rocesso de salvar.... Acbou");
-    }
+    });
+
+    value.add(favors);
   }
 
   //salvar local///
-  Future updatelist(
-      {required List<Contact> contatos, required String key}) async {
+  Future attList({required List<Contact> contatos, required String key}) async {
     List<String> favors = [];
     if (!keysuUser.contains(key)) {
       for (var e in contatos) {
@@ -80,7 +86,7 @@ class Favorcontroller extends ValueNotifier<List<List<String>>> {
             .toJson());
       }
       keysuUser.add(key);
-      pref.saveKeys(user: nameuser, favorList: keysuUser);
+      pref.saveKeys(user: nameuser, keylist: keysuUser);
       updateList(person: nameuser, favorlisr: favors, key: key);
       log("Rocesso de salvar.... Acbou");
     }
