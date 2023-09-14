@@ -3,22 +3,23 @@ import 'dart:convert';
 
 import 'package:exportontatcapp/model/contato_model.dart';
 
-class ListContatModel {
-  final List<ContatoModel> mycontatct;
-  ListContatModel({
-    required this.mycontatct,
-  });
+class ListContatModel extends ContatoModel {
+  final List<ContatoModel> contatos;
+
+  ListContatModel(
+    this.contatos,
+  ) : super(name: '', contato: '', email: '');
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'mycontatct': mycontatct.map((x) => x.toMap()).toList(),
+      'contatos': contatos.map((x) => x.toMap()).toList(),
     };
   }
 
   factory ListContatModel.fromMap(Map<String, dynamic> map) {
     return ListContatModel(
-      mycontatct: List<ContatoModel>.from(
-        (map['mycontatct'] as List<int>).map<ContatoModel>(
+      List<ContatoModel>.from(
+        (map['contatos'] as List<int>).map<ContatoModel>(
           (x) => ContatoModel.fromMap(x as Map<String, dynamic>),
         ),
       ),

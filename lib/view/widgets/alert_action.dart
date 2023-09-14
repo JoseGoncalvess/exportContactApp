@@ -1,6 +1,5 @@
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import '../../controller/shared_preferenc.dart';
 import '../favorlist/favor_list_page.dart';
 import '../favorlist/favorcontroller.dart';
 import '../home/home_controller.dart';
@@ -12,7 +11,7 @@ class AlertAction {
       required List<String> keys,
       required Function() finishiSavepress}) async {
     Favorcontroller _favorcontroller = Favorcontroller();
-    final HomeController _homecontroller = HomeController();
+    //final HomeController _homecontroller = HomeController();
     TextEditingController _texteditingControlle = TextEditingController();
 
     return showModalBottomSheet(
@@ -89,15 +88,23 @@ class AlertAction {
 
                                 if (_texteditingControlle.text != "") {
                                   _favorcontroller
+                                      // .loadLsts(
+                                      //     keys: keysuUser, person: nameuser)
+                                      // .then((value) => Navigator.push(
+                                      //     _,
+                                      //     MaterialPageRoute(
+                                      //       builder: (context) =>
+                                      //           FavorListPage(),
+                                      //     )));
+
                                       .saveList(contatos: contatos, key: key)
                                       .then((value) {
-                                    // finishiSavepress();
-                                    // Navigator.push(
-                                    //     _,
-                                    //     MaterialPageRoute(
-                                    //       builder: (_) =>
-                                    //           const FavorListPage(),
-                                    //     ));
+                                    finishiSavepress();
+                                    Navigator.push(
+                                        _,
+                                        MaterialPageRoute(
+                                          builder: (_) => const FavorListPage(),
+                                        ));
                                   });
                                 }
                               },

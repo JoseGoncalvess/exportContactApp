@@ -2,6 +2,7 @@ import 'dart:convert';
 import "dart:developer";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exportontatcapp/model/contato_model.dart';
+import 'package:exportontatcapp/model/list_contat.model.dart';
 import 'package:exportontatcapp/view/home/home_controller.dart';
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
@@ -64,14 +65,35 @@ class Favorcontroller extends ValueNotifier<List<List<String>>> {
     List<String> favors = [];
     DocumentSnapshot response = await user.doc(person).get();
     var map = response.data() as Map<String, dynamic>;
-    map.forEach((key, value) {
-      for (var e in value) {
-        var i = ContatoModel.fromMap(jsonDecode(value[0]));
-        favors.add(i.toJson());
-      }
-    });
+    var list = map.values.toList();
 
-    value.add(favors);
+    log(list.runtimeType.toString());
+
+    for (var e in list) {
+      favors.add(e.toString());
+    }
+    getlistDb(favors);
+
+    // var l = await getlistDb(favors);
+    // log(l.toString());
+  }
+
+  getlistDb(List<String> database) async {
+    List<String> favors = [];
+    for (var e in database) {
+      var i = jsonDecode(e);
+      getlistString(i);
+      log(i.toString());
+      log(value.length.toString());
+    }
+  }
+
+  getlistString(List list) {
+    List<String> mylist = [];
+    for (var item in list) {
+      mylist.add(ContatoModel.fromMap(item).toJson());
+    }
+    value.add(mylist);
   }
 
   //salvar local///
