@@ -11,26 +11,17 @@ class WhatsappController {
       required String number}) async {
     var string = FormaterMsg().formater(msg);
 
-    Uri url_android = Uri.parse(
-        "whatsapp://send?phone=$number+&text=${FormaterMsg().formater(string)}");
-    Uri url_ios = Uri.parse("https://wa.me/$number?text=${Uri.parse(string)}");
+    Uri url = Uri.parse("https://wa.me/$number?text=$string");
 
-    if (Platform.isIOS) {
-      if (await canLaunchUrl(url_ios)) {
-        launchUrl(url_ios);
-      } else {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Whatsapp não instalado")));
-      }
-    } else {
-      if (await canLaunchUrl(url_android)) {
-        launchUrl(url_android);
-      } else {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Whatsapp não instalado")));
-      }
+    try {
+      await launchUrl(url);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Erro ao Direcionar para Whatsapp!",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.sizeOf(context).width * 0.03,
+              ))));
     }
   }
 }
