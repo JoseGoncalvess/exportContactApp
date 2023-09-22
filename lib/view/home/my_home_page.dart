@@ -119,7 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12))),
                                 title: Text(
-                                  value[index].displayName,
+                                  value[index].displayName.isEmpty
+                                      ? "Contato sem nome"
+                                      : value[index].displayName,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize:
@@ -128,7 +130,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       color: Colors.blue[800]),
                                 ),
                                 subtitle: Text(
-                                  value[index].phones.first.number,
+                                  value[index].phones.isEmpty
+                                      ? "Contato vazio"
+                                      : value[index].phones[0].number,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize:

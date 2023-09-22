@@ -1,9 +1,6 @@
 import 'package:exportontatcapp/view/home/my_home_page.dart';
 import 'package:flutter/material.dart';
-
 import '../controller/shared_preferenc.dart';
-import 'favorlist/favorcontroller.dart';
-import 'home/home_controller.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -14,8 +11,6 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   SharedPreferenc pref = SharedPreferenc();
-  Favorcontroller _favorcontroller = Favorcontroller();
-  final HomeController _homecontroller = HomeController();
   TextEditingController _texteditingControlle = TextEditingController();
   GlobalKey<State> _key = GlobalKey<State>();
   @override

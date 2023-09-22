@@ -3,7 +3,7 @@ import 'package:exportontatcapp/view/home/my_home_page.dart';
 import 'package:exportontatcapp/view/user_page.dart';
 import 'package:flutter/material.dart';
 
-import 'controller/shared_preferenc.dart';
+import '../controller/shared_preferenc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
